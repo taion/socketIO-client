@@ -323,6 +323,16 @@ class Test_WebsocketTransport(BaseMixin, TestCase):
         self.assertEqual(self.socketIO.transport_name, 'websocket')
 
 
+class Test_WebsocketTransport_Only(BaseMixin, TestCase):
+
+    def setUp(self):
+        super(Test_WebsocketTransport_Only, self).setUp()
+        self.socketIO = SocketIO(HOST, PORT, LoggingNamespace, transports=[
+            'websocket'], verify=False)
+        self.assertEqual(self.socketIO.transport_name, 'websocket')
+        self.assertEqual(self.socketIO._transport._timeout, 60)
+
+
 class Namespace(LoggingNamespace):
 
     def initialize(self):
