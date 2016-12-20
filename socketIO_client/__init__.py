@@ -68,12 +68,13 @@ class EngineIO(LoggingMixin):
         return self._transport_instance
 
     def _get_engineIO_session(self):
-        self.transport_name = self._client_transports[0]
-        self._transport_instance = self._get_transport(self.transport_name)
-
         warning_screen = self._yield_warning_screen()
         for elapsed_time in warning_screen:
             try:
+                transport_name = self._client_transports[0]
+                self._transport_instance = self._get_transport(transport_name)
+                self.transport_name = transport_name
+
                 engineIO_packet_type, engineIO_packet_data = next(
                     self._transport_instance.recv_packet())
                 break
